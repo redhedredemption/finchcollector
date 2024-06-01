@@ -5,6 +5,8 @@
 <p>Species: {{ finch.species }}</p>
 <p>Description: {{ finch.description }}</p>
 <p>Age: {{ finch.age }}</p>
+<a href="{% url 'finch_edit' finch.pk %}">Edit</a>
+<a href="{% url 'finch_delete' finch.pk %}">Delete</a>
 <a href="{% url 'index' %}">Back to All Finches</a>
 
 {% endblock %}
