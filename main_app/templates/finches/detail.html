@@ -32,7 +32,7 @@
         <tr><th>Date</th><th>Meal</th></tr>
       </thead>
       <tbody>
-        {% for feeding in finch.feedings.all %}
+        {% for feeding in finch.feeding_set.all %}
           <tr>
             <td>{{ feeding.date }}</td>
             <td>{{ feeding.get_meal_display }}</td>
