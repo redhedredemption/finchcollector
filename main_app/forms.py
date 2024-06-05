@@ -1,5 +1,5 @@
 from django import forms
-from .models import Finch, Feeding
+from .models import Finch, Feeding, Toy
 
 class FinchForm(forms.ModelForm):
     class Meta:
@@ -14,3 +14,8 @@ class FeedingForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'class': 'datepicker'}),
             'meal': forms.Select(attrs={'class': 'browser-default'}),
         }
+
+class ToyForm(forms.ModelForm):
+    class Meta:
+        model = Toy
+        fields = ['name', 'material']

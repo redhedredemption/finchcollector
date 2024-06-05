@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>All Toys</h1>
+<ul>
+  {% for toy in toys %}
+    <li>{{ toy.name }} ({{ toy.get_material_display }})</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'toy_add' %}" class="btn">Add Toy</a>
+{% endblock %}

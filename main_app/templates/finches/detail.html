@@ -14,9 +14,9 @@
         <p>Species: {{ finch.species }}</p>
         <p>Description: {{ finch.description|linebreaks }}</p>
         {% if finch.age > 0 %}
-          <p>Age: {{ finch.age }}</p>
+        <p>Age: {{ finch.age }}</p>
         {% else %}
-          <p>Age: Baby</p>
+        <p>Age: Baby</p>
         {% endif %}
       </div>
       <div class="card-action">
@@ -29,14 +29,17 @@
     <h2>Feedings</h2>
     <table class="striped">
       <thead>
-        <tr><th>Date</th><th>Meal</th></tr>
+        <tr>
+          <th>Date</th>
+          <th>Meal</th>
+        </tr>
       </thead>
       <tbody>
         {% for feeding in finch.feeding_set.all %}
-          <tr>
-            <td>{{ feeding.date }}</td>
-            <td>{{ feeding.get_meal_display }}</td>
-          </tr>
+        <tr>
+          <td>{{ feeding.date }}</td>
+          <td>{{ feeding.get_meal_display }}</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
@@ -46,14 +49,37 @@
       {{ feeding_form.as_p }}
       <input type="submit" class="btn" value="Add Feeding">
     </form>
+
+    <h2>Toys</h2>
+    <ul>
+      {% for toy in finch.toys.all %}
+        <li>{{ toy.name }} ({{ toy.get_material_display }})</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Available Toys</h2>
+    <ul>
+      {% for toy in toys %}
+        <li>
+          {{ toy.name }} ({{ toy.get_material_display }})
+          <a href="{% url 'associate_toy' finch.id toy.id %}">Add</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h2>Add a New Toy</h2>
+    <form action="{% url 'toy_add' %}" method="POST">
+      {% csrf_token %}
+      {{ toy_form.as_p }}
+      <button type="submit" class="btn">Add Toy</button>
+    </form>
   </div>
 </div>
 
 <a href="{% url 'index' %}">Back to All Finches</a>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Initialize date picker
+  document.addEventListener('DOMContentLoaded', function () {
     var dateElems = document.querySelectorAll('.datepicker');
     M.Datepicker.init(dateElems, {
       format: 'yyyy-mm-dd',
@@ -62,7 +88,6 @@
       autoClose: true
     });
 
-    // Initialize select
     var selectElems = document.querySelectorAll('select');
     M.FormSelect.init(selectElems);
   });

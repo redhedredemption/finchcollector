@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Finch, Feeding
-from .forms import FinchForm, FeedingForm
+from .models import Finch, Feeding, Toy
+from .forms import FinchForm, FeedingForm, ToyForm
 
 # Define the home view
 def home(request):
@@ -24,6 +24,8 @@ class FinchDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['feeding_form'] = FeedingForm()
+        context['toys'] = Toy.objects.all()
+        context['toy_form'] = ToyForm()  
         return context
 
 class FinchCreateView(CreateView):
@@ -50,3 +52,20 @@ def add_feeding(request, pk):
         new_feeding.finch_id = pk
         new_feeding.save()
     return redirect('detail', pk=pk)
+
+class ToyListView(ListView):
+    model = Toy
+    template_name = 'toys/index.html'
+    context_object_name = 'toys'
+
+class ToyCreateView(CreateView):
+    model = Toy
+    form_class = ToyForm
+    template_name = 'toys/toy_form.html'
+    success_url = reverse_lazy('toys_index')
+
+def associate_toy(request, finch_id, toy_id):
+    finch = get_object_or_404(Finch, pk=finch_id)
+    toy = get_object_or_404(Toy, pk=toy_id)
+    finch.toys.add(toy)
+    return redirect('detail', pk=finch_id)
