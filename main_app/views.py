@@ -70,6 +70,8 @@ def associate_toy(request, finch_id, toy_id):
     finch.toys.add(toy)
     return redirect('detail', pk=finch_id)
 
-def unassoc_toy(request, cat_id, toy_id):
-  Cat.objects.get(id=cat_id).toys.unassociate(toy_id)
-  return redirect('detail', cat_id=cat_id)
+def unassoc_toy(request, finch_id, toy_id):
+    finch = get_object_or_404(Finch, pk=finch_id)
+    toy = get_object_or_404(Toy, pk=toy_id)
+    finch.toys.remove(toy)
+    return redirect('detail', pk=finch_id)

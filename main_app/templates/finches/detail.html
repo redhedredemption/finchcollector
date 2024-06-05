@@ -48,12 +48,17 @@
     </form>
 
     <h2>Toys</h2>
-    <div class="card-action">
-      <form action="{% url 'unassoc_toy' cat.id toy.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit" class="btn">Remove</button>
-      </form>
-    </div>
+    <ul>
+      {% for toy in finch.toys.all %}
+        <li>
+          {{ toy.name }} ({{ toy.get_material_display }})
+          <form action="{% url 'unassoc_toy' finch.id toy.id %}" method="POST" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn">Remove</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
 
     <h2>Available Toys</h2>
     <ul>
