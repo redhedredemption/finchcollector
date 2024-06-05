@@ -13,4 +13,5 @@ urlpatterns = [
     path('toys/', views.ToyListView.as_view(), name='toys_index'),
     path('toys/add/', views.ToyCreateView.as_view(), name='toy_add'),
     path('finches/<int:finch_id>/add_toy/<int:toy_id>/', views.associate_toy, name='associate_toy'),
+    path('cats/<int:cat_id>/unassoc_toy/<int:toy_id>/', views.unassoc_toy, name='unassoc_toy'),
 ]

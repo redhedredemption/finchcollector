@@ -14,9 +14,9 @@
         <p>Species: {{ finch.species }}</p>
         <p>Description: {{ finch.description|linebreaks }}</p>
         {% if finch.age > 0 %}
-        <p>Age: {{ finch.age }}</p>
+          <p>Age: {{ finch.age }}</p>
         {% else %}
-        <p>Age: Baby</p>
+          <p>Age: Baby</p>
         {% endif %}
       </div>
       <div class="card-action">
@@ -29,17 +29,14 @@
     <h2>Feedings</h2>
     <table class="striped">
       <thead>
-        <tr>
-          <th>Date</th>
-          <th>Meal</th>
-        </tr>
+        <tr><th>Date</th><th>Meal</th></tr>
       </thead>
       <tbody>
         {% for feeding in finch.feeding_set.all %}
-        <tr>
-          <td>{{ feeding.date }}</td>
-          <td>{{ feeding.get_meal_display }}</td>
-        </tr>
+          <tr>
+            <td>{{ feeding.date }}</td>
+            <td>{{ feeding.get_meal_display }}</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
@@ -51,12 +48,13 @@
     </form>
 
     <h2>Toys</h2>
-    <ul>
-      {% for toy in finch.toys.all %}
-        <li>{{ toy.name }} ({{ toy.get_material_display }})</li>
-        {% endfor %}
-    </ul>
-    
+    <div class="card-action">
+      <form action="{% url 'unassoc_toy' cat.id toy.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn">Remove</button>
+      </form>
+    </div>
+
     <h2>Available Toys</h2>
     <ul>
       {% for toy in toys %}
@@ -79,7 +77,7 @@
 <a href="{% url 'index' %}">Back to All Finches</a>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     var dateElems = document.querySelectorAll('.datepicker');
     M.Datepicker.init(dateElems, {
       format: 'yyyy-mm-dd',
